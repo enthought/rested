@@ -99,7 +99,7 @@ setup(
         ],
     packages = find_packages(),
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
-    setup_requires = 'setupdocs>=1.0',
+    setup_requires = ['setupdocs>=1.0', 'Sphinx>=1.0'],
     tests_require = [
         'nose >= 0.10.3',
         ],
