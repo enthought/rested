@@ -23,7 +23,7 @@ from user import home as USER_HOME_DIRECTORY
 # System library imports
 from configobj import ConfigObj
 from validate import Validator
-from PyQt4 import QtGui, Qt
+from enthought.qt.api import QtGui, Qt
 
 # ETS imports
 from enthought.etsconfig.api import ETSConfig
@@ -110,7 +110,7 @@ class ReSTHTMLPairHandler(SaveHandler):
     # We redefine the keyPressEvent_action function in the CodeWidget
     # to call the fix_table function when the user types text in a table
     def keyPressEvent_action(self, event):
-        if self.auto_table_fix and event.modifiers() != Qt.Qt.ControlModifier:
+        if self.auto_table_fix and event.modifiers() != Qt.ControlModifier:
             self._fix_table(event.key())
 
     def object_auto_table_fix_changed(self, info):
@@ -248,7 +248,7 @@ class ReSTHTMLPairHandler(SaveHandler):
         if not self._cursor_in_table(cursor):
             return
 
-        if Qt.Qt.Key_ydiaeresis >= key >= Qt.Qt.Key_Space:
+        if Qt.Key_ydiaeresis >= key >= Qt.Key_Space:
             old_pos = self._move_end_of_cell(cursor)
             if self._chars_before_cursor(cursor, 2) == '  ':
                 cursor.deletePreviousChar()
@@ -276,7 +276,7 @@ class ReSTHTMLPairHandler(SaveHandler):
 
             cursor.setPosition(old_pos)
 
-        elif key == Qt.Qt.Key_Backspace:
+        elif key == Qt.Key_Backspace:
             chars_before = self._chars_before_cursor(cursor, 2)
             if chars_before == '| ' or chars_before == '+ ':
                 cursor.insertText(' ')
@@ -292,7 +292,7 @@ class ReSTHTMLPairHandler(SaveHandler):
                 cursor.insertText(' ')
                 cursor.setPosition(old_pos)
 
-        elif key == Qt.Qt.Key_Delete:
+        elif key == Qt.Key_Delete:
             if self._chars_at_cursor(cursor, 1) == '|':
                 cursor.movePosition(Qt.QTextCursor.Right, Qt.QTextCursor.MoveAnchor)
                 cursor.insertText('|')
@@ -308,7 +308,7 @@ class ReSTHTMLPairHandler(SaveHandler):
                 cursor.insertText(' ')
                 cursor.setPosition(old_pos)
 
-        elif key == Qt.Qt.Key_Return:
+        elif key == Qt.Key_Return:
             old_pos = cursor.position()
 
             cursor.movePosition(Qt.QTextCursor.StartOfLine, 0)
