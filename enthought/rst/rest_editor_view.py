@@ -147,19 +147,19 @@ class ReSTHTMLPairHandler(SaveHandler):
             return
 
         rel_pos = float(rst_scrollbar.value()) / float(rst_scrollbar.maximum())
-        new_html_pos = rel_pos * html_frame.scrollBarMaximum(2)
+        new_html_pos = rel_pos * html_frame.scrollBarMaximum(Qt.Vertical)
 
-        html_frame.setScrollBarValue(2, new_html_pos)
+        html_frame.setScrollBarValue(Qt.Vertical, new_html_pos)
 
     def object__sync_scrollbar_html2rst_action_changed(self, info):
         rst_scrollbar = self.code_widget.code.verticalScrollBar()
         html_frame = self.html_control.page().mainFrame()
 
-        if html_frame.scrollBarMaximum(2) == 0:
+        if html_frame.scrollBarMaximum(Qt.Vertical) == 0:
             return
 
         rel_pos = float(html_frame.scrollPosition().y()) \
-                / float(html_frame.scrollBarMaximum(2))
+                / float(html_frame.scrollBarMaximum(Qt.Vertical))
         new_rst_pos = rel_pos * rst_scrollbar.maximum()
 
         rst_scrollbar.setSliderPosition(new_rst_pos)
@@ -180,7 +180,7 @@ class ReSTHTMLPairHandler(SaveHandler):
 
     def object__set_html_pos_action_changed(self, info):
         html_frame = self.html_control.page().mainFrame()
-        html_frame.setScrollBarValue(2, info.object._html_pos)
+        html_frame.setScrollBarValue(Qt.Vertical, info.object._html_pos)
 
     def object__fix_underline_action_changed(self, info):
         line_length = self._get_current_line_length(info)
