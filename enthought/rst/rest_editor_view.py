@@ -23,7 +23,7 @@ from user import home as USER_HOME_DIRECTORY
 # System library imports
 from configobj import ConfigObj
 from validate import Validator
-from enthought.qt.api import QtGui, Qt
+from enthought.qt.api import QtGui, Qt, QTextCursor
 
 # ETS imports
 from enthought.etsconfig.api import ETSConfig
@@ -254,25 +254,25 @@ class ReSTHTMLPairHandler(SaveHandler):
                 cursor.deletePreviousChar()
             else:
                 while self._cursor_in_table(cursor):
-                    cursor.movePosition(Qt.QTextCursor.Up, 0)
+                    cursor.movePosition(QTextCursor.Up, 0)
                     if self._cursor_on_border(cursor):
                         cursor.insertText(self._chars_before_cursor(cursor, 1))
-                        cursor.movePosition(Qt.QTextCursor.Left, 0)
+                        cursor.movePosition(QTextCursor.Left, 0)
                     else:
                         cursor.insertText(' ')
-                        cursor.movePosition(Qt.QTextCursor.Left, 0)
+                        cursor.movePosition(QTextCursor.Left, 0)
 
                 cursor = self.code_widget.code.textCursor()
                 old_pos = self._move_end_of_cell(cursor)
 
                 while self._cursor_in_table(cursor):
-                    cursor.movePosition(Qt.QTextCursor.Down, 0)
+                    cursor.movePosition(QTextCursor.Down, 0)
                     if self._cursor_on_border(cursor):
                         cursor.insertText(self._chars_before_cursor(cursor, 1))
-                        cursor.movePosition(Qt.QTextCursor.Left, 0)
+                        cursor.movePosition(QTextCursor.Left, 0)
                     else:
                         cursor.insertText(' ')
-                        cursor.movePosition(Qt.QTextCursor.Left, 0)
+                        cursor.movePosition(QTextCursor.Left, 0)
 
             cursor.setPosition(old_pos)
 
@@ -283,7 +283,7 @@ class ReSTHTMLPairHandler(SaveHandler):
             elif chars_before[1] == '|' or chars_before[1] == '+':
                 cursor.insertText(' ')
             elif self._chars_at_cursor(cursor, 1) == '|':
-                cursor.movePosition(Qt.QTextCursor.Left, Qt.QTextCursor.MoveAnchor)
+                cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
                 self.code_widget.code.setTextCursor(cursor)
                 cursor.insertText(' ')
 
@@ -294,13 +294,13 @@ class ReSTHTMLPairHandler(SaveHandler):
 
         elif key == Qt.Key_Delete:
             if self._chars_at_cursor(cursor, 1) == '|':
-                cursor.movePosition(Qt.QTextCursor.Right, Qt.QTextCursor.MoveAnchor)
+                cursor.movePosition(QTextCursor.Right, QTextCursor.MoveAnchor)
                 cursor.insertText('|')
-                cursor.movePosition(Qt.QTextCursor.Left, Qt.QTextCursor.MoveAnchor)
+                cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
             elif self._chars_at_cursor(cursor, 1) == '+':
-                cursor.movePosition(Qt.QTextCursor.Right, Qt.QTextCursor.MoveAnchor)
+                cursor.movePosition(QTextCursor.Right, QTextCursor.MoveAnchor)
                 cursor.insertText('+')
-                cursor.movePosition(Qt.QTextCursor.Left, Qt.QTextCursor.MoveAnchor)
+                cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
             elif self._chars_at_cursor(cursor, 1) == ' ' and self._chars_before_cursor(cursor, 1) == '|':
                 cursor.insertText(' ')
             else:
@@ -311,12 +311,12 @@ class ReSTHTMLPairHandler(SaveHandler):
         elif key == Qt.Key_Return:
             old_pos = cursor.position()
 
-            cursor.movePosition(Qt.QTextCursor.StartOfLine, 0)
+            cursor.movePosition(QTextCursor.StartOfLine, 0)
 
             if self._chars_at_cursor(cursor, 1) == ' ':
-                cursor.movePosition(Qt.QTextCursor.NextWord, 0)
+                cursor.movePosition(QTextCursor.NextWord, 0)
 
-            cursor.movePosition(Qt.QTextCursor.EndOfLine, 1)
+            cursor.movePosition(QTextCursor.EndOfLine, 1)
 
             eof_pos = cursor.position()
 
@@ -336,33 +336,33 @@ class ReSTHTMLPairHandler(SaveHandler):
     def _move_end_of_cell(self, cursor):
         old_pos = cursor.position()
         while self._chars_at_cursor(cursor, 1) != '|':
-            cursor.movePosition(Qt.QTextCursor.Right, Qt.QTextCursor.MoveAnchor)
+            cursor.movePosition(QTextCursor.Right, QTextCursor.MoveAnchor)
             if self._chars_at_cursor(cursor, 1) == '+':
-                cursor.movePosition(Qt.QTextCursor.Up, Qt.QTextCursor.MoveAnchor)
+                cursor.movePosition(QTextCursor.Up, QTextCursor.MoveAnchor)
                 if self._chars_at_cursor(cursor, 1) == '|':
-                    cursor.movePosition(Qt.QTextCursor.Down, Qt.QTextCursor.MoveAnchor)
+                    cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor)
                     break
-                cursor.movePosition(Qt.QTextCursor.Down, Qt.QTextCursor.MoveAnchor)
+                cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor)
         return old_pos
 
     def _chars_at_cursor(self, cursor, number_chars):
-        cursor.movePosition(19, 1, number_chars)
+        cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor, number_chars)
         chars = cursor.selectedText()
-        cursor.movePosition(9, 0, number_chars)
+        cursor.movePosition(QTextCursor.Right, QTextCursor.MoveAnchor, number_chars)
         return chars
 
     def _chars_before_cursor(self, cursor, number_chars):
-        cursor.movePosition(Qt.QTextCursor.Left, 1, number_chars)
+        cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor, number_chars)
         chars = cursor.selectedText()
-        cursor.movePosition(Qt.QTextCursor.Right, 0, number_chars)
+        cursor.movePosition(QTextCursor.Right, QTextCursor.MoveAnchor, number_chars)
         return chars
 
     def _cursor_in_table(self, cursor):
         old_pos = cursor.position()
-        cursor.movePosition(Qt.QTextCursor.StartOfLine, 0)
+        cursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor, 0)
 
         if self._chars_at_cursor(cursor, 1) == ' ':
-            cursor.movePosition(Qt.QTextCursor.NextWord, 0)
+            cursor.movePosition(QTextCursor.NextWord, QTextCursor.MoveAnchor)
 
         in_table = self._chars_at_cursor(cursor, 1) == '|' or \
                    self._chars_at_cursor(cursor, 1) == '+'
@@ -371,9 +371,9 @@ class ReSTHTMLPairHandler(SaveHandler):
 
     def _cursor_on_border(self, cursor):
         old_pos = cursor.position()
-        cursor.movePosition(Qt.QTextCursor.StartOfLine, 0)
+        cursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
         if self._chars_at_cursor(cursor, 1) == ' ':
-            cursor.movePosition(Qt.QTextCursor.NextWord, 0)
+            cursor.movePosition(QTextCursor.NextWord, QTextCursor.MoveAnchor)
         on_border = self._chars_at_cursor(cursor, 1) == '+'
         cursor.setPosition(old_pos)
         return on_border
