@@ -23,7 +23,6 @@ from user import home as USER_HOME_DIRECTORY
 # System library imports
 from configobj import ConfigObj
 from validate import Validator
-from enthought.qt.api import QtGui, Qt, QTextCursor
 
 # ETS imports
 from enthought.etsconfig.api import ETSConfig
@@ -51,6 +50,8 @@ from enthought.traits.ui.extras.saving import SaveHandler
 from enthought.traits.ui.key_bindings import KeyBinding, KeyBindings
 from enthought.traits.ui.menu import Action, Menu, MenuBar, ToolBar
 from enthought.traits.ui.tabular_adapter import TabularAdapter
+from enthought.qt.api import QtGui, Qt, QTextCursor
+
 
 # Local imports
 from rest_editor_model import ReSTHTMLPair
@@ -346,15 +347,15 @@ class ReSTHTMLPairHandler(SaveHandler):
         return old_pos
 
     def _chars_at_cursor(self, cursor, number_chars):
-        cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor, number_chars)
+        cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor, number_chars)
         chars = cursor.selectedText()
-        cursor.movePosition(QTextCursor.Right, QTextCursor.MoveAnchor, number_chars)
+        cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor, number_chars)
         return chars
 
     def _chars_before_cursor(self, cursor, number_chars):
-        cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor, number_chars)
+        cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor, number_chars)
         chars = cursor.selectedText()
-        cursor.movePosition(QTextCursor.Right, QTextCursor.MoveAnchor, number_chars)
+        cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor, number_chars)
         return chars
 
     def _cursor_in_table(self, cursor):
