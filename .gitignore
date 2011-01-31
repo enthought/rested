@@ -1,0 +1,9 @@
+# file types to ignore
+*.pyc
+*~
+
+# ignore the build directories
+*.egg-info/
+build/
+dist/
+docs/build/
