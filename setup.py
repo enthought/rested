@@ -4,11 +4,11 @@
 # All rights reserved.
 
 """
-ETS ReST Editor 
+ETS ReST Editor
 
 Prerequisites
 -------------
-If you want to build Rested from source, you must first install 
+If you want to build Rested from source, you must first install
 `setuptools <http://pypi.python.org/pypi/setuptools/0.6c8>`_ and
 `setupdocs  <http://pypi.python.org/pypi/SetupDocs>`_
 """
@@ -28,7 +28,7 @@ from setuptools.command.develop import develop
 #from setup_data import INFO
 setup_data = dict(__name__='', __file__='setup_data.py')
 execfile('setup_data.py', setup_data)
-INFO = setup_data['INFO'] 
+INFO = setup_data['INFO']
 
 
 # Pull the description values for the setup keywords from our file docstring.

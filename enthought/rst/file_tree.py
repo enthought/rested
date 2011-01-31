@@ -48,7 +48,7 @@ class DirectoryNode(HasTraits):
         dirs = []
         # Pass filenames through str() to convert from unicode.
         names = [str(f) for f in os.listdir(self.path)]
-        
+
         names.sort(key=str.lower)
         for fn in names:
             path = os.path.join(self.path, fn)
@@ -57,10 +57,10 @@ class DirectoryNode(HasTraits):
                 dirs.append(DirectoryNode(path, filters=self.filters))
 
         return dirs + files
-        
-        
-    # On Windows 7 (maybe on Vista/XP too, but not tested there) calling 
-    # os.listdir() on certain folders raises a "WindowsError: [Error 5] Access 
+
+
+    # On Windows 7 (maybe on Vista/XP too, but not tested there) calling
+    # os.listdir() on certain folders raises a "WindowsError: [Error 5] Access
     # is denied" exception. What we do here, is when populating the list of
     # folders, we check if a folder is accessible by the user before adding it.
     def _access_denied(self, path):
