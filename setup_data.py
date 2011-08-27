@@ -13,22 +13,32 @@ def etsdep(p, min, max=None, literal=False):
     return require
 
 
-# Declare our ETS project dependencies.
+# Declare our ETS project dependencies. Versions BEFORE the namespace refactor.
 ENTHOUGHTBASE = etsdep('EnthoughtBase', '3.0.5')
 TRAITSBACKENDQT = etsdep('TraitsBackendQt', '3.4.0')
 TRAITSGUI = etsdep('TraitsGUI', '3.4.0')
-TRAITS_UI = etsdep('Traits[ui]', '3.4.0')
+TRAITS_UI3 = etsdep('Traits[ui]', '3.4.0')
+
+# Version after the refactor
+# FIXME: What else is left to add?
+TRAITS_UI4 = etsdep('traitsui', '4.0')
 
 
-# A dictionary of the setup data information.
+# A dictionary of the setup data information. 
 INFO = {
     'extras_require' : {
         },
-    'install_requires' : [
+    # This is the list with packages BEFORE the ETS4 namespace refactor
+    'install_requires3' : [
         ENTHOUGHTBASE,
         TRAITSBACKENDQT,
         TRAITSGUI,
-        TRAITS_UI,
+        TRAITS_UI3,
+        ],
+    # This is the list with packages AFTER the ETS4 namespace refactor.
+    # FIXME: What else is left to add?
+    'install_requires4' : [
+        TRAITS_UI4,
         ],
     'name': 'Rested',
     'version': '1.0.0',
