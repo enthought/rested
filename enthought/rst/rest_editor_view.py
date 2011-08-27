@@ -50,7 +50,7 @@ from enthought.traits.ui.extras.saving import SaveHandler
 from enthought.traits.ui.key_bindings import KeyBinding, KeyBindings
 from enthought.traits.ui.menu import Action, Menu, MenuBar, ToolBar
 from enthought.traits.ui.tabular_adapter import TabularAdapter
-from enthought.qt import QtGui
+from enthought.qt import QtGui, QtCore
 
 
 # Local imports
