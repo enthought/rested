@@ -25,7 +25,7 @@ from configobj import ConfigObj
 from validate import Validator
 
 # ETS imports
-from enthought.etsconfig.api import ETSConfig
+from traits.etsconfig.api import ETSConfig
 
 if ETSConfig.toolkit != 'qt4':
     try:
@@ -37,20 +37,20 @@ if ETSConfig.toolkit != 'qt4':
         print 'The rest editor only supports qt4 as toolkit. ' + \
               'Toolkit changed to qt4.'
 
-from enthought.pyface.api import AboutDialog, DirectoryDialog, FileDialog, \
+from pyface.api import AboutDialog, DirectoryDialog, FileDialog, \
     ImageResource, OK, error
-from enthought.pyface.action.api import Group as ActionGroup
-from enthought.pyface.ui.qt4.code_editor.code_widget import AdvancedCodeWidget
-from enthought.traits.api import HasTraits, Str, Property, Bool, List, \
+from pyface.action.api import Group as ActionGroup
+from pyface.ui.qt4.code_editor.code_widget import AdvancedCodeWidget
+from traits.api import HasTraits, Str, Property, Bool, List, \
     Instance, Dict, Int, Any, Event, Enum, on_trait_change, Font
-from enthought.traits.ui.api import View, Group, Item, \
+from traitsui.api import View, Group, Item, \
     TabularEditor, ListEditor, CodeEditor, InstanceEditor, \
     HTMLEditor
-from enthought.traits.ui.extras.saving import SaveHandler
-from enthought.traits.ui.key_bindings import KeyBinding, KeyBindings
-from enthought.traits.ui.menu import Action, Menu, MenuBar, ToolBar
-from enthought.traits.ui.tabular_adapter import TabularAdapter
-from enthought.qt import QtGui, QtCore
+from traitsui.extras.saving import SaveHandler
+from traitsui.key_bindings import KeyBinding, KeyBindings
+from traitsui.menu import Action, Menu, MenuBar, ToolBar
+from traitsui.tabular_adapter import TabularAdapter
+from pyface.qt import QtGui, QtCore
 
 
 # Local imports

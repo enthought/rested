@@ -20,9 +20,9 @@ import codecs
 from multiprocessing import Pool
 
 # ETS imports
-from enthought.traits.api import HasTraits, Int, Str, List, Bool, Any, \
+from traits.api import HasTraits, Int, Str, List, Bool, Any, \
     Property, on_trait_change
-from enthought.traits.ui.extras.saving import CanSaveMixin
+from traitsui.extras.saving import CanSaveMixin
 
 # Local imports. Because of an apparent bug in multiprocessing where functions
 # cannot be defined outside the module where apply_async is called, we define
