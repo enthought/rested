@@ -35,7 +35,7 @@ setup(
     description = 'rested: ReST Editor',
     entry_points = {
         'gui_scripts': [
-            'rsted = enthought.rst.app:main',
+            'rested = enthought.rst.app:main',
             ],
         },
     include_package_data = True,
