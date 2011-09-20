@@ -18,4 +18,10 @@
 """ Provides tools and editors for working with reStructured Text.
 """
 
-from api import *
+__version__ = '1.1.0'
+
+__requires__ = [
+    'traitsui',
+]
+
+# from api import *

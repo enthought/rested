@@ -1,77 +1,23 @@
 #!/usr/bin/env python
 #
-# Copyright (c) 2008-2010 by Enthought, Inc.
+# Copyright by Enthought, Inc.
 # All rights reserved.
 
-"""
-ETS ReST Editor
+from os.path import join
 
-Prerequisites
--------------
-If you want to build Rested from source, you must first install
-`setuptools <http://pypi.python.org/pypi/setuptools/0.6c8>`_ and
-`setupdocs  <http://pypi.python.org/pypi/SetupDocs>`_
-
-FIXME: DO WE REALLY NEED the install_requires and all the setup_data stuff? 
-
-FIXME: Isn't setupdocs deprecated? Remove the material for this?
-
-FIXME: running the setup.py develop generates the following warning:
-WARNING: enthought is a namespace package, but its __init__.py does
-not declare_namespace(); setuptools 0.7 will REQUIRE this!
-(See the setuptools manual under "Namespace Packages" for details.)
-"""
-
-
-import traceback
-import sys
-
-from distutils import log
-from distutils.command.build import build as distbuild
 from setuptools import setup, find_packages
-from setuptools.command.develop import develop
 
 
-# FIXME: This works around a setuptools bug which gets setup_data.py metadata
-# from incorrect packages. Ticket #1592
-#from setup_data import INFO
-setup_data = dict(__name__='', __file__='setup_data.py')
-execfile('setup_data.py', setup_data)
-INFO = setup_data['INFO']
+info = {}
+execfile(join('enthought', 'rst', '__init__.py'), info)
 
 
-# Pull the description values for the setup keywords from our file docstring.
-DOCLINES = __doc__.split("\n")
-
-class MyDevelop(develop):
-    def run(self):
-        develop.run(self)
-        try:
-            self.run_command('build_docs')
-        except:
-            log.warn("Couldn't build documentation:\n%s" %
-                     traceback.format_exception(*sys.exc_info()))
-
-
-class MyBuild(distbuild):
-    def run(self):
-        distbuild.run(self)
-        try:
-            self.run_command('build_docs')
-        except:
-            log.warn("Couldn't build documentation:\n%s" %
-                     traceback.format_exception(*sys.exc_info()))
-
-
-
-# The actual setup call with the package names using the new ETS namespace.
-# If it fails, try with the old namespace (see value of 'install_requires'
-# argument).
-try:
-    setup(
-        author = 'Enthought, Inc.',
-        author_email = 'info@enthought.com',
-        classifiers = [c.strip() for c in """\
+setup(
+    name = 'rested',
+    version = info['__version__'],
+    author = 'Enthought, Inc.',
+    author_email = 'info@enthought.com',
+    classifiers = [c.strip() for c in """\
         Development Status :: 5 - Production/Stable
         Intended Audience :: Developers
         Intended Audience :: Science/Research
@@ -86,93 +32,22 @@ try:
         Topic :: Software Development
         Topic :: Software Development :: Libraries
         """.splitlines() if len(c.strip()) > 0],
-        cmdclass = {
-            'develop': MyDevelop,
-            'build': MyBuild
-            },
-        description = DOCLINES[1],
-        entry_points = {
-            'gui_scripts': [
-                'rsted = enthought.rst.app:main',
-                ],
-            },
-        extras_require = INFO['extras_require'],
-        ext_modules = [],
-        include_package_data = True,
-        package_data = {},
-        install_requires = INFO['install_requires4'],
-        license = 'BSD',
-        long_description = '\n'.join(DOCLINES[3:]),
-        maintainer = 'ETS Developers',
-        maintainer_email = 'enthought-dev@enthought.com',
-        name = 'Rested',
+    description = 'rested: ReST Editor',
+    entry_points = {
+        'gui_scripts': [
+            'rsted = enthought.rst.app:main',
+            ],
+        },
+    include_package_data = True,
+    install_requires = info['__requires__'],
+    license = 'BSD',
+    #long_description = open('README.rst').read(),
+    maintainer = 'ETS Developers',
+    maintainer_email = 'enthought-dev@enthought.com',
         namespace_packages = [
             "enthought",
             ],
-        packages = find_packages(),
-        platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
-        setup_requires = ['setupdocs>=1.0', 'Sphinx>=1.0'],
-        tests_require = [
-            'nose >= 0.10.3',
-            ],
-        test_suite = 'nose.collector',
-        url = 'http://code.enthought.com/',
-        version = INFO['version'],
-        zip_safe = False,
-        )
-except Exception as e:
-    log.warn("Couldn't run the setup with new namespace packages. "
-             "The exception is %s. Now running it with the old namespace. " %
-             e)
-    setup(
-        author = 'Enthought, Inc.',
-        author_email = 'info@enthought.com',
-        classifiers = [c.strip() for c in """\
-        Development Status :: 5 - Production/Stable
-        Intended Audience :: Developers
-        Intended Audience :: Science/Research
-        License :: OSI Approved :: BSD License
-        Operating System :: MacOS
-        Operating System :: Microsoft :: Windows
-        Operating System :: OS Independent
-        Operating System :: POSIX
-        Operating System :: Unix
-        Programming Language :: Python
-        Topic :: Scientific/Engineering
-        Topic :: Software Development
-        Topic :: Software Development :: Libraries
-        """.splitlines() if len(c.strip()) > 0],
-        cmdclass = {
-            'develop': MyDevelop,
-            'build': MyBuild
-            },
-        description = DOCLINES[1],
-        entry_points = {
-            'gui_scripts': [
-                'rsted = enthought.rst.app:main',
-                ],
-            },
-        extras_require = INFO['extras_require'],
-        ext_modules = [],
-        include_package_data = True,
-        package_data = {},
-        install_requires = INFO['install_requires3'],
-        license = 'BSD',
-        long_description = '\n'.join(DOCLINES[3:]),
-        maintainer = 'ETS Developers',
-        maintainer_email = 'enthought-dev@enthought.com',
-        name = 'Rested',
-        namespace_packages = [
-            "enthought",
-            ],
-        packages = find_packages(),
-        platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
-        setup_requires = ['setupdocs>=1.0', 'Sphinx>=1.0'],
-        tests_require = [
-            'nose >= 0.10.3',
-            ],
-        test_suite = 'nose.collector',
-        url = 'http://code.enthought.com/',
-        version = INFO['version'],
-        zip_safe = False,
-        )
+    packages = find_packages(),
+    platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
+    zip_safe = False,
+)
