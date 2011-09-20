@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 
 
 info = {}
-execfile(join('enthought', 'rst', '__init__.py'), info)
+execfile(join('rested', '__init__.py'), info)
 
 
 setup(
@@ -35,7 +35,7 @@ setup(
     description = 'rested: ReST Editor',
     entry_points = {
         'gui_scripts': [
-            'rested = enthought.rst.app:main',
+            'rested = rested.app:main',
             ],
         },
     include_package_data = True,
@@ -44,9 +44,6 @@ setup(
     #long_description = open('README.rst').read(),
     maintainer = 'ETS Developers',
     maintainer_email = 'enthought-dev@enthought.com',
-        namespace_packages = [
-            "enthought",
-            ],
     packages = find_packages(),
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
     zip_safe = False,
