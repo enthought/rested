@@ -5,6 +5,11 @@ from traits.api import HasTraits, Str, Property, List, \
         Directory, cached_property, Instance
 from traitsui.api import TreeEditor, TreeNode, View, Item
 
+try:
+    FileAccessError = WindowsError
+except NameError:
+    FileAccessError = OSError
+
 class FileNode(HasTraits):
     path = Str()
     name = Property(Str, depends_on='path')
@@ -67,8 +72,8 @@ class DirectoryNode(HasTraits):
         try:
             os.listdir(path)
             return False
-        except WindowsError as win_err:
-            # print win_err
+        except FileAccessError as err:
+            # print err
             return True
 
 class FileTree(HasTraits):
