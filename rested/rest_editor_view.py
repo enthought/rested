@@ -773,7 +773,7 @@ class ReSTHTMLEditorHandler(SaveHandler):
         info.object.selected_view._sync_scrollbar_html2rst_action = True
 
 class ReSTHTMLEditorView(HasTraits):
-
+    
     root_path = Str(USER_HOME_DIRECTORY)
     filters = List(['*.rst', '*.txt'])
 
@@ -789,6 +789,7 @@ class ReSTHTMLEditorView(HasTraits):
     sync_on_change = Bool(True)
     auto_table_fix = Bool(False)
     sphinx_static_path = Str
+    icon = Any()
 
     _tree = Instance(FileTree)
 
@@ -980,16 +981,17 @@ class ReSTHTMLEditorView(HasTraits):
                                                  ui_kind='panel',
                                                  selected='selected_view',
                                                  page_name='.title')),
-                          id='vma.rest_editor_view.EditorSplit',
+                          id='rest_editor_view.EditorSplit',
                           orientation='horizontal', layout='split',
                           show_labels=False),
-                    id='vma.rest_editor_view.EditorView',
+                    id='rest_editor_view.EditorView',
                     handler=ReSTHTMLEditorHandler(),
                     width=1024, height=786, resizable=True,
                     menubar=menu_bar,
                     toolbar = tool_bar,
                     key_bindings=key_bindings,
-                    title="reStructured Text Editor")
+                    title="reStructured Text Editor", 
+                    icon = self.icon)
 
     #-----------------------------------------------------------------
     #  ReSTHTMLEditorView interface
