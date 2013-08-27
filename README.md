@@ -1,5 +1,23 @@
 rested
 ======
+Rested is a reStructuredText editor written in Python with the QT framework. It is sole copyright of [Enthought](https://enthought.com/). 
+
+Blog post about features added during Google Summer of Code 2010: [](http://blog.enthought.com/enthought-tool-suite/a-renewed-restructured-text-editor/)
+Original code in [enthought/rested]() repository.
+
+# Debian/Ubuntu Install
+Instructions from [Issue 5 in enthought repo](https://github.com/enthought/rested/issues/5)
+```bash
+sudo apt-get install build-essential python-pip python-dev
+sudo pip install numpy configobj pygments docutils sphinx rst2pdf
+
+# grab the source
+git clone https://github.com/enthought/rested
+cd rested
+
+sudo python setup.py install
+```
+
 
 #OS X Install*
 
@@ -22,20 +40,24 @@ on OS X 10.8 with Python 2.7.
 
 The PyQt and PySide libraries will be installed in the global python context
 and will not be present in a virtualenv unless you specifically ask them to
-be.
+be. 
 
 ```bash
-# inherit the system python packages to get PyQt and PySide in the virtualenv
-mkvirtualenv --system-site-packages rested
-
-# grab the source and go into dir
+# grab the source
 git clone https://github.com/carschar/rested.git
 cd rested
 
-# install dependencies
-pip install -r requirements.txt
+python setup.py install
 ```
 
-##Running It
 
+# Running It (applies to Linux/OS X)
+Create a small helper script to execute the app:
+```
+#!/bin/bash
+# Run Enthought's rested ReStructuredText editor.
+python -c "from rested import app; app.main()" "$@" 2&>1 &
+```
+
+Or you can run it directly from the git repo:
 ```python rested/app.py```
