@@ -3,8 +3,8 @@ rested
 Rested is a reStructuredText editor written in Python with the QT framework. It is sole copyright of [Enthought](https://enthought.com/). 
 
 Resources:
-* Blog post about features added during Google Summer of Code 2010: [](http://blog.enthought.com/enthought-tool-suite/a-renewed-restructured-text-editor/)
-* Original code in [enthought/rested]() repository.
+* Blog post about features added in 2010: [A Renewed ReStructuredText Editor!](http://blog.enthought.com/enthought-tool-suite/a-renewed-restructured-text-editor/)
+* Original code resides in [enthought/rested](https://github.com/enthought/rested) repository.
 
 # Debian/Ubuntu Install
 Instructions from [Issue 5 in enthought repo](https://github.com/enthought/rested/issues/5)
