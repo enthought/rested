@@ -1,0 +1,7 @@
+# These are pulled from rested/__init__.py for easier install with pip.
+# Deliberately did not peg versions - don't know the bounds of what will work.
+configobj
+docutils
+pyface
+traits
+traitsui
