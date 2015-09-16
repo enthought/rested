@@ -1,4 +1,5 @@
 import os
+import fnmatch
 import glob
 
 from traits.api import HasTraits, Str, Property, List, \
@@ -44,8 +45,9 @@ class DirectoryNode(HasTraits):
     def _get_children(self):
         file_paths = []
         for filter in self.filters:
-            filter_path = os.path.join(self.path, filter)
-            file_paths += os.path.join(glob.glob(filter_path))
+            for (dirpath, dirnames, filenames) in os.walk(self.path):
+                 file_paths.extend(fnmatch.filter(filenames, filter))
+                 break
 
         files = [FileNode(path) for path in file_paths]
         files.sort(key=lambda node: node.name.lower())
