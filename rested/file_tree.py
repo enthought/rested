@@ -45,11 +45,6 @@ class DirectoryNode(HasTraits):
     def _get_children(self):
         file_paths = []
         for filter in self.filters:
-            #filter_path = os.path.join(self.path, filter)
-            #for root, dirnames, filenames in os.walk(self.path):
-                #for filename in fnmatch.filter(filenames, filter):
-                    #file_paths.append(os.path.join(root, filename))
-            #file_paths += glob.glob(filter_path)#os.path.join(self.path, glob.glob(filter_path))
             for (dirpath, dirnames, filenames) in os.walk(self.path):
                  file_paths.extend(fnmatch.filter(filenames, filter))
                  break
