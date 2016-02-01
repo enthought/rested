@@ -20,7 +20,7 @@ from optparse import OptionParser
 import os
 
 # Local imports
-from rest_editor_view import ReSTHTMLEditorView
+from .rest_editor_view import ReSTHTMLEditorView
 
 
 def main():

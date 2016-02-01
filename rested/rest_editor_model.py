@@ -27,7 +27,7 @@ from traitsui.extras.saving import CanSaveMixin
 # Local imports. Because of an apparent bug in multiprocessing where functions
 # cannot be defined outside the module where apply_async is called, we define
 # some fake functions here.
-import util
+from . import util
 def docutils_rest_to_html(rest):
     return util.docutils_rest_to_html(rest)
 def sphinx_rest_to_html(rest, static_path=util.DEFAULT_STATIC_PATH):

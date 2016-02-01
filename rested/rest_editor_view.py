@@ -54,9 +54,9 @@ from pyface.qt import QtGui, QtCore
 
 
 # Local imports
-from rest_editor_model import ReSTHTMLPair
-from file_tree import FileTree
-from util import docutils_rest_to_html, docutils_rest_to_latex, \
+from .rest_editor_model import ReSTHTMLPair
+from .file_tree import FileTree
+from .util import docutils_rest_to_html, docutils_rest_to_latex, \
     sphinx_rest_to_html, rest_to_pdf
 
 class DocUtilsWarningAdapter(TabularAdapter):
