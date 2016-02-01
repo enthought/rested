@@ -1,4 +1,4 @@
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2009, Enthought, Inc.
 #  All rights reserved.
@@ -13,7 +13,7 @@
 #  Author: Evan Patterson
 #  Date:   06/18/2009
 #
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from .rest_editor_model import DocUtilsWarning, ReSTHTMLPair
 from .rest_editor_view import ReSTHTMLPairView, ReSTHTMLEditorView

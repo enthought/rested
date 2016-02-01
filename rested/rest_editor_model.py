@@ -1,4 +1,4 @@
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2009, Enthought, Inc.
 #  All rights reserved.
@@ -13,7 +13,7 @@
 #  Author: Evan Patterson
 #  Date:   06/18/2009
 #
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Standard library imports
 import codecs
@@ -28,8 +28,12 @@ from traitsui.extras.saving import CanSaveMixin
 # cannot be defined outside the module where apply_async is called, we define
 # some fake functions here.
 from . import util
+
+
 def docutils_rest_to_html(rest):
     return util.docutils_rest_to_html(rest)
+
+
 def sphinx_rest_to_html(rest, static_path=util.DEFAULT_STATIC_PATH):
     return util.sphinx_rest_to_html(rest, static_path)
 
@@ -57,9 +61,9 @@ class ReSTHTMLPair(CanSaveMixin):
     _processing = Bool(False)
     _queued = Bool(False)
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  ReSTHTMLPair interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     def __init__(self, **kw):
         self._pool = Pool(processes=1)
@@ -80,14 +84,14 @@ class ReSTHTMLPair(CanSaveMixin):
             self._gen_html()
 
     def _gen_html(self):
-        args = [ self.rest ]
+        args = [self.rest]
         if self.use_sphinx:
             func = sphinx_rest_to_html
             if self.sphinx_static_path:
                 args.append(self.sphinx_static_path)
         else:
             func = docutils_rest_to_html
-        #self._set_html(func(*args))
+        # self._set_html(func(*args))
         self._pool.apply_async(func, args, callback=self._set_html)
 
     def _set_html(self, result):
@@ -114,15 +118,15 @@ class ReSTHTMLPair(CanSaveMixin):
             filepath = filepath[:index]
         return filepath + '.html'
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  CanSaveMixin interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     def validate(self):
         """ Prompt the user if there are warnings/errors with reST file.
         """
         if len(self.warnings):
-            return (False, "The reStructured Text is improperly composed. " \
+            return (False, "The reStructured Text is improperly composed. "
                            "Are you sure you want to save it?")
         else:
             return (True, '')

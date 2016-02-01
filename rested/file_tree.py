@@ -2,13 +2,14 @@ import os
 import glob
 
 from traits.api import HasTraits, Str, Property, List, \
-        Directory, cached_property, Instance
+    Directory, cached_property, Instance
 from traitsui.api import TreeEditor, TreeNode, View, Item
 
 try:
     FileAccessError = WindowsError
 except NameError:
     FileAccessError = OSError
+
 
 class FileNode(HasTraits):
     path = Str()
@@ -21,6 +22,7 @@ class FileNode(HasTraits):
     @cached_property
     def _get_name(self):
         return os.path.split(self.path)[-1]
+
 
 class DirectoryNode(HasTraits):
 
@@ -58,11 +60,10 @@ class DirectoryNode(HasTraits):
         for fn in names:
             path = os.path.join(self.path, fn)
             if os.path.isdir(path) and not fn.startswith('.') \
-                                   and not self._access_denied(path):
+                    and not self._access_denied(path):
                 dirs.append(DirectoryNode(path, filters=self.filters))
 
         return dirs + files
-
 
     # On Windows 7 (maybe on Vista/XP too, but not tested there) calling
     # os.listdir() on certain folders raises a "WindowsError: [Error 5] Access
@@ -72,9 +73,9 @@ class DirectoryNode(HasTraits):
         try:
             os.listdir(path)
             return False
-        except FileAccessError as err:
-            # print err
+        except FileAccessError:
             return True
+
 
 class FileTree(HasTraits):
     root_path = Directory('.')
