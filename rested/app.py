@@ -19,11 +19,11 @@
 from optparse import OptionParser
 import os
 
-# Local imports
-from .rest_editor_view import ReSTHTMLEditorView
-
 
 def main():
+    # Local imports
+    from .rest_editor_view import ReSTHTMLEditorView
+
     app = ReSTHTMLEditorView()
 
     usage = 'usage: rsted [options] file ...'
@@ -43,4 +43,6 @@ def main():
 
 
 if __name__ == '__main__':
+    if __package__ is None:
+        __package__ = "rested.app"
     main()
