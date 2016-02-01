@@ -180,7 +180,7 @@ def sphinx_rest_to_html(rest, static_path=DEFAULT_STATIC_PATH):
 
 def rest_to_pdf(input_file, output_file):
     if rst2pdf is None:
-        print 'rst2pdf package not installed.'
+        print ('rst2pdf package not installed.')
         return
 
     # rst2pdf doesn't seem to have an easy API so instead we call the main

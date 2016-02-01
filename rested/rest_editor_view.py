@@ -38,8 +38,8 @@ if ETSConfig.toolkit != 'qt4':
         raise Exception('The rest editor only supports qt4 as toolkit. ' + \
          'Toolkit cannot be set to qt4 because it has already been set to wx.')
     else:
-        print 'The rest editor only supports qt4 as toolkit. ' + \
-              'Toolkit changed to qt4.'
+        print ('The rest editor only supports qt4 as toolkit. '
+               'Toolkit changed to qt4.')
 
 from pyface.api import AboutDialog, DirectoryDialog, FileDialog, \
     ImageResource, OK, error
