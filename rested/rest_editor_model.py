@@ -96,7 +96,9 @@ class ReSTHTMLPair(CanSaveMixin):
             self._queued = False
         else:
             self._processing = False
-            self.html, warning_nodes = result
+
+            html, warning_nodes = result
+            self.html = html.decode('utf-8')
             warnings = []
             for node in warning_nodes:
                 description = node.children[0].children[0]
