@@ -23,7 +23,10 @@ import codecs
 import os.path
 import re
 from shutil import rmtree
-from StringIO import StringIO
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
 from tempfile import mkdtemp
 
 # System library imports
