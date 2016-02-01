@@ -18,7 +18,11 @@
 # Standard library imports
 import codecs
 import os.path
-from user import home as USER_HOME_DIRECTORY
+
+try:
+    from user import home as USER_HOME_DIRECTORY
+except ImportError:
+    USER_HOME_DIRECTORY = os.path.expanduser('~/')
 
 # System library imports
 from configobj import ConfigObj
