@@ -67,7 +67,7 @@ def _docutils_rest_to(rest, writer):
     """
     # Make sure any Sphinx polution of docutils has been removed.
     if Sphinx is not None:
-        for key, value in docutils_roles.items():
+        for key, value in list(docutils_roles.items()):
             if value.__module__.startswith('sphinx'):
                 docutils_roles.pop(key)
 
