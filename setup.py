@@ -9,7 +9,8 @@ from setuptools import setup, find_packages
 
 
 info = {}
-execfile(join('rested', '__init__.py'), info)
+exec (compile(open(join('rested', '__init__.py')).read(),
+              join('rested', '__init__.py'), 'exec'), info)
 
 
 setup(
