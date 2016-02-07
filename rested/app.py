@@ -21,7 +21,7 @@ import os
 
 
 def main():
-    # Local imports
+    # Do relative imports here to benefit from __package__ if set below
     from .rest_editor_view import ReSTHTMLEditorView
 
     app = ReSTHTMLEditorView()
