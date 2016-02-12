@@ -18,6 +18,7 @@
 # Standard library imports
 import codecs
 from multiprocessing import Pool
+import sys
 
 # ETS imports
 from traits.api import HasTraits, Int, Str, List, Bool, Any, \
@@ -27,7 +28,7 @@ from traitsui.extras.saving import CanSaveMixin
 # Local imports. Because of an apparent bug in multiprocessing where functions
 # cannot be defined outside the module where apply_async is called, we define
 # some fake functions here.
-import util
+from . import util
 def docutils_rest_to_html(rest):
     return util.docutils_rest_to_html(rest)
 def sphinx_rest_to_html(rest, static_path=util.DEFAULT_STATIC_PATH):
@@ -96,7 +97,15 @@ class ReSTHTMLPair(CanSaveMixin):
             self._queued = False
         else:
             self._processing = False
-            self.html, warning_nodes = result
+
+            html, warning_nodes = result
+            if sys.version_info.major > 2:
+                if isinstance(html, bytes):
+                    html = html.decode('utf-8')
+            else:
+                if isinstance(html, str):
+                    html = html.decode('utf-8')
+            self.html = html
             warnings = []
             for node in warning_nodes:
                 description = node.children[0].children[0]

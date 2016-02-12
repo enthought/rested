@@ -23,7 +23,10 @@ import codecs
 import os.path
 import re
 from shutil import rmtree
-from StringIO import StringIO
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
 from tempfile import mkdtemp
 
 # System library imports
@@ -64,7 +67,7 @@ def _docutils_rest_to(rest, writer):
     """
     # Make sure any Sphinx polution of docutils has been removed.
     if Sphinx is not None:
-        for key, value in docutils_roles.items():
+        for key, value in list(docutils_roles.items()):
             if value.__module__.startswith('sphinx'):
                 docutils_roles.pop(key)
 
@@ -177,7 +180,7 @@ def sphinx_rest_to_html(rest, static_path=DEFAULT_STATIC_PATH):
 
 def rest_to_pdf(input_file, output_file):
     if rst2pdf is None:
-        print 'rst2pdf package not installed.'
+        print ('rst2pdf package not installed.')
         return
 
     # rst2pdf doesn't seem to have an easy API so instead we call the main

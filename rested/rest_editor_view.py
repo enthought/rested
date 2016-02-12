@@ -18,7 +18,11 @@
 # Standard library imports
 import codecs
 import os.path
-from user import home as USER_HOME_DIRECTORY
+
+try:
+    from user import home as USER_HOME_DIRECTORY
+except ImportError:
+    USER_HOME_DIRECTORY = os.path.expanduser('~/')
 
 # System library imports
 from configobj import ConfigObj
@@ -34,8 +38,8 @@ if ETSConfig.toolkit != 'qt4':
         raise Exception('The rest editor only supports qt4 as toolkit. ' + \
          'Toolkit cannot be set to qt4 because it has already been set to wx.')
     else:
-        print 'The rest editor only supports qt4 as toolkit. ' + \
-              'Toolkit changed to qt4.'
+        print ('The rest editor only supports qt4 as toolkit. '
+               'Toolkit changed to qt4.')
 
 from pyface.api import AboutDialog, DirectoryDialog, FileDialog, \
     ImageResource, OK, error
@@ -54,9 +58,9 @@ from pyface.qt import QtGui, QtCore
 
 
 # Local imports
-from rest_editor_model import ReSTHTMLPair
-from file_tree import FileTree
-from util import docutils_rest_to_html, docutils_rest_to_latex, \
+from .rest_editor_model import ReSTHTMLPair
+from .file_tree import FileTree
+from .util import docutils_rest_to_html, docutils_rest_to_latex, \
     sphinx_rest_to_html, rest_to_pdf
 
 class DocUtilsWarningAdapter(TabularAdapter):
