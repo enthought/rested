@@ -1,4 +1,4 @@
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2009, Enthought, Inc.
 #  All rights reserved.
@@ -13,7 +13,7 @@
 #  Author: Evan Patterson
 #  Date:   07/17/2009
 #
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 """ Defines function for converting reStructured Text to HTML.
 """
@@ -30,7 +30,8 @@ except ImportError:
 from tempfile import mkdtemp
 
 # System library imports
-import docutils.io, docutils.nodes
+import docutils.io
+import docutils.nodes
 from docutils.core import Publisher
 from docutils.parsers.rst.roles import _roles as docutils_roles
 try:
@@ -43,9 +44,9 @@ except ImportError:
     rst2pdf = None
 
 
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Convert reStructured Text to various formats using docutils
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 def docutils_rest_to_html(rest):
     """ Uses docutils to convert a ReST string to HTML. Returns a tuple
@@ -54,18 +55,20 @@ def docutils_rest_to_html(rest):
     """
     return _docutils_rest_to(rest, 'html')
 
+
 def docutils_rest_to_latex(rest):
     """ Uses docutils to convert a ReST string to LaTeX. Returns a tuple
         containg the LaTeX string and the list of warning nodes.
     """
     return _docutils_rest_to(rest, 'latex')
 
+
 def _docutils_rest_to(rest, writer):
     """ Uses docutils to convert a ReST string to HTML. Returns a tuple
         containg the HTML string and the list of warning nodes that were
         removed from the HTML.
     """
-    # Make sure any Sphinx polution of docutils has been removed.
+    # Make sure any Sphinx pollution of docutils has been removed.
     if Sphinx is not None:
         for key, value in list(docutils_roles.items()):
             if value.__module__.startswith('sphinx'):
@@ -75,9 +78,9 @@ def _docutils_rest_to(rest, writer):
                     destination_class=docutils.io.StringOutput)
     pub.set_reader('standalone', None, 'restructuredtext')
     pub.set_writer(writer)
-    pub.writer.default_stylesheet_path=''
-    pub.get_settings() # Get the default settings
-    pub.settings.halt_level = 6 # Don't halt on errors
+    pub.writer.default_stylesheet_path = ''
+    pub.get_settings()  # Get the default settings
+    pub.settings.halt_level = 6  # Don't halt on errors
     pub.settings.warning_stream = StringIO()
 
     pub.set_source(rest)
@@ -97,9 +100,9 @@ def _docutils_rest_to(rest, writer):
     return pub.writer.write(pub.document, pub.destination), warning_nodes
 
 
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Convert reStructured Text to HTML using Sphinx
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 DEFAULT_STATIC_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                    'sphinx_default')
@@ -113,6 +116,7 @@ if Sphinx is not None:
     # None value. This hack ensures that sphinx.config.Config.__init__ gets
     # passed a valid string for the config directory.
     import sphinx.builders.html
+
     def my_init(self, app):
         app.confdir = ''
         sphinx.builders.Builder.__init__(self, app)
@@ -125,6 +129,7 @@ if Sphinx is not None:
         return
     sphinx.builders.html.StandaloneHTMLBuilder.finish = my_finish
 
+
 def sphinx_rest_to_html(rest, static_path=DEFAULT_STATIC_PATH):
     """ Uses sphinx to convert a ReST string to HTML. Requires the use of
         temporary files. Returns the same things as docutils_rest_to_html.
@@ -133,6 +138,7 @@ def sphinx_rest_to_html(rest, static_path=DEFAULT_STATIC_PATH):
     # Hijack the warning filter method in Sphinx so that we can save the nodes
     # that were removed.
     warning_nodes = []
+
     def my_filter_messages(self, doctree):
         for node in doctree.traverse(docutils.nodes.system_message):
             warning_nodes.append(node)
@@ -144,23 +150,23 @@ def sphinx_rest_to_html(rest, static_path=DEFAULT_STATIC_PATH):
     try:
         filename = 'sphinx_preview'
         base_path = os.path.join(temp_dir, filename)
-        fh = codecs.open(base_path+'.rst', 'w', 'utf-8')
+        fh = codecs.open(base_path + '.rst', 'w', 'utf-8')
         fh.write(rest)
         fh.close()
 
-        overrides = { 'html_add_permalinks' : False,
-                      'html_copy_source' : False,
-                      'html_title' : 'Sphinx preview',
-                      'html_use_index' : False,
-                      'html_use_modindex' : False,
-                      'html_use_smartypants' : True,
-                      'master_doc' : filename }
+        overrides = {'html_add_permalinks': False,
+                     'html_copy_source': False,
+                     'html_title': 'Sphinx preview',
+                     'html_use_index': False,
+                     'html_use_modindex': False,
+                     'html_use_smartypants': True,
+                     'master_doc': filename}
         app = Sphinx(srcdir=temp_dir, confdir=None, outdir=temp_dir,
                      doctreedir=temp_dir, buildername='html',
                      confoverrides=overrides, status=None, warning=StringIO())
         app.build(force_all=True, filenames=None)
 
-        fh = codecs.open(base_path+'.html', 'r', 'utf-8')
+        fh = codecs.open(base_path + '.html', 'r', 'utf-8')
         html = fh.read()
         fh.close()
     finally:
@@ -174,9 +180,10 @@ def sphinx_rest_to_html(rest, static_path=DEFAULT_STATIC_PATH):
 
     return html, warning_nodes
 
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Convert reStructured Text to PDF using rst2pdf
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+
 
 def rest_to_pdf(input_file, output_file):
     if rst2pdf is None:
@@ -186,5 +193,5 @@ def rest_to_pdf(input_file, output_file):
     # rst2pdf doesn't seem to have an easy API so instead we call the main
     # function as if we were using it from the CLI
 
-    args=['',input_file, '-o', output_file]
+    args = ['', input_file, '-o', output_file]
     rst2pdf(args[1:])

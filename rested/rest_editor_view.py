@@ -1,4 +1,4 @@
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2009, Enthought, Inc.
 #  All rights reserved.
@@ -13,7 +13,7 @@
 #  Author: Evan Patterson
 #  Date:   06/18/2009
 #
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Standard library imports
 import codecs
@@ -35,8 +35,9 @@ if ETSConfig.toolkit != 'qt4':
     try:
         ETSConfig.toolkit = 'qt4'
     except:
-        raise Exception('The rest editor only supports qt4 as toolkit. ' + \
-         'Toolkit cannot be set to qt4 because it has already been set to wx.')
+        raise Exception(
+            'The rest editor only supports qt4 as toolkit. Toolkit cannot be '
+            'set to qt4 because it has already been set to wx.')
     else:
         print ('The rest editor only supports qt4 as toolkit. '
                'Toolkit changed to qt4.')
@@ -63,13 +64,14 @@ from .file_tree import FileTree
 from .util import docutils_rest_to_html, docutils_rest_to_latex, \
     sphinx_rest_to_html, rest_to_pdf
 
+
 class DocUtilsWarningAdapter(TabularAdapter):
     columns = [('Line', 'line'), ('Description', 'description')]
     image = Property
 
-    icon_mapping = Dict({ 1:ImageResource('info'),
-                          2:ImageResource('warning'),
-                          3:ImageResource('error') })
+    icon_mapping = Dict({1: ImageResource('info'),
+                         2: ImageResource('warning'),
+                         3: ImageResource('error')})
 
     def _get_image(self):
         if self.item is None or self.column != 1:
@@ -115,7 +117,8 @@ class ReSTHTMLPairHandler(SaveHandler):
     # We redefine the keyPressEvent_action function in the CodeWidget
     # to call the fix_table function when the user types text in a table
     def keyPressEvent_action(self, event):
-        if self.auto_table_fix and event.modifiers() != QtCore.Qt.ControlModifier:
+        if (self.auto_table_fix and
+                event.modifiers() != QtCore.Qt.ControlModifier):
             self._fix_table(event.key())
 
     def object_auto_table_fix_changed(self, info):
@@ -151,8 +154,10 @@ class ReSTHTMLPairHandler(SaveHandler):
         if rst_scrollbar.maximum() == 0:
             return
 
-        rel_pos = float(rst_scrollbar.value()) / float(rst_scrollbar.maximum())
-        new_html_pos = rel_pos * html_frame.scrollBarMaximum(QtCore.Qt.Vertical)
+        rel_pos = (float(rst_scrollbar.value()) /
+                   float(rst_scrollbar.maximum()))
+        new_html_pos = (
+            rel_pos * html_frame.scrollBarMaximum(QtCore.Qt.Vertical))
 
         html_frame.setScrollBarValue(QtCore.Qt.Vertical, new_html_pos)
 
@@ -163,8 +168,8 @@ class ReSTHTMLPairHandler(SaveHandler):
         if html_frame.scrollBarMaximum(QtCore.Qt.Vertical) == 0:
             return
 
-        rel_pos = float(html_frame.scrollPosition().y()) \
-                / float(html_frame.scrollBarMaximum(QtCore.Qt.Vertical))
+        rel_pos = (float(html_frame.scrollPosition().y()) /
+                   float(html_frame.scrollBarMaximum(QtCore.Qt.Vertical)))
         new_rst_pos = rel_pos * rst_scrollbar.maximum()
 
         rst_scrollbar.setSliderPosition(new_rst_pos)
@@ -205,8 +210,8 @@ class ReSTHTMLPairHandler(SaveHandler):
         cursor = self.code_widget.code.textCursor()
         old_pos = cursor.position()
 
-        cursor.movePosition(12, 0) # Move down one line.
-        cursor.select(1) # Selects the line of text under the cursor.
+        cursor.movePosition(12, 0)  # Move down one line.
+        cursor.select(1)  # Selects the line of text under the cursor.
 
         cursor.insertText(line_length * underline_char)
         self.code_widget.code.setTextCursor(cursor)
@@ -218,8 +223,8 @@ class ReSTHTMLPairHandler(SaveHandler):
         cursor = self.code_widget.code.textCursor()
         old_pos = cursor.position()
 
-        cursor.movePosition(2, 0) # Move up one line.
-        cursor.select(1) # Selects the line of text under the cursor.
+        cursor.movePosition(2, 0)  # Move up one line.
+        cursor.select(1)  # Selects the line of text under the cursor.
 
         old_length = len(cursor.selectedText())
 
@@ -231,19 +236,18 @@ class ReSTHTMLPairHandler(SaveHandler):
 
     def _get_current_line_length(self, info):
         cursor = self.code_widget.code.textCursor()
-        cursor.select(1) # Selects the line of text under the cursor.
+        cursor.select(1)  # Selects the line of text under the cursor.
         return len(cursor.selectedText())
 
     def _get_underline_char(self, info):
         allowed_chars = ['=', '-', '`', ':', '.', '\'', '"', '~', '^', '_',
                          '*', '+', '#']
         cursor = self.code_widget.code.textCursor()
-        cursor.movePosition(3, 0) # Move to the start of the current line.
-        cursor.movePosition(12, 0) # Move down one line.
-        cursor.movePosition(19, 1) # Move right one character.
-        return cursor.selectedText() if cursor.selectedText() in allowed_chars \
-               else None
-
+        cursor.movePosition(3, 0)   # Move to the start of the current line.
+        cursor.movePosition(12, 0)  # Move down one line.
+        cursor.movePosition(19, 1)  # Move right one character.
+        return (cursor.selectedText() if cursor.selectedText() in allowed_chars
+                else None)
 
     # FIXME: This function (and the other below) are all quite buggy and should
     # be redone.
@@ -288,7 +292,8 @@ class ReSTHTMLPairHandler(SaveHandler):
             elif chars_before[1] == '|' or chars_before[1] == '+':
                 cursor.insertText(' ')
             elif self._chars_at_cursor(cursor, 1) == '|':
-                cursor.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor)
+                cursor.movePosition(QtGui.QTextCursor.Left,
+                                    QtGui.QTextCursor.MoveAnchor)
                 self.code_widget.code.setTextCursor(cursor)
                 cursor.insertText(' ')
 
@@ -299,14 +304,19 @@ class ReSTHTMLPairHandler(SaveHandler):
 
         elif key == QtCore.Qt.Key_Delete:
             if self._chars_at_cursor(cursor, 1) == '|':
-                cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.MoveAnchor)
+                cursor.movePosition(QtGui.QTextCursor.Right,
+                                    QtGui.QTextCursor.MoveAnchor)
                 cursor.insertText('|')
-                cursor.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor)
+                cursor.movePosition(QtGui.QTextCursor.Left,
+                                    QtGui.QTextCursor.MoveAnchor)
             elif self._chars_at_cursor(cursor, 1) == '+':
-                cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.MoveAnchor)
+                cursor.movePosition(QtGui.QTextCursor.Right,
+                                    QtGui.QTextCursor.MoveAnchor)
                 cursor.insertText('+')
-                cursor.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor)
-            elif self._chars_at_cursor(cursor, 1) == ' ' and self._chars_before_cursor(cursor, 1) == '|':
+                cursor.movePosition(QtGui.QTextCursor.Left,
+                                    QtGui.QTextCursor.MoveAnchor)
+            elif (self._chars_at_cursor(cursor, 1) == ' ' and
+                    self._chars_before_cursor(cursor, 1) == '|'):
                 cursor.insertText(' ')
             else:
                 old_pos = self._move_end_of_cell(cursor)
@@ -341,44 +351,56 @@ class ReSTHTMLPairHandler(SaveHandler):
     def _move_end_of_cell(self, cursor):
         old_pos = cursor.position()
         while self._chars_at_cursor(cursor, 1) != '|':
-            cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.MoveAnchor)
+            cursor.movePosition(QtGui.QTextCursor.Right,
+                                QtGui.QTextCursor.MoveAnchor)
             if self._chars_at_cursor(cursor, 1) == '+':
-                cursor.movePosition(QtGui.QTextCursor.Up, QtGui.QTextCursor.MoveAnchor)
+                cursor.movePosition(QtGui.QTextCursor.Up,
+                                    QtGui.QTextCursor.MoveAnchor)
                 if self._chars_at_cursor(cursor, 1) == '|':
-                    cursor.movePosition(QtGui.QTextCursor.Down, QtGui.QTextCursor.MoveAnchor)
+                    cursor.movePosition(QtGui.QTextCursor.Down,
+                                        QtGui.QTextCursor.MoveAnchor)
                     break
-                cursor.movePosition(QtGui.QTextCursor.Down, QtGui.QTextCursor.MoveAnchor)
+                cursor.movePosition(QtGui.QTextCursor.Down,
+                                    QtGui.QTextCursor.MoveAnchor)
         return old_pos
 
     def _chars_at_cursor(self, cursor, number_chars):
-        cursor.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor, number_chars)
+        cursor.movePosition(QtGui.QTextCursor.Left,
+                            QtGui.QTextCursor.MoveAnchor, number_chars)
         chars = cursor.selectedText()
-        cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.KeepAnchor, number_chars)
+        cursor.movePosition(QtGui.QTextCursor.Right,
+                            QtGui.QTextCursor.KeepAnchor, number_chars)
         return chars
 
     def _chars_before_cursor(self, cursor, number_chars):
-        cursor.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor, number_chars)
+        cursor.movePosition(QtGui.QTextCursor.Left,
+                            QtGui.QTextCursor.MoveAnchor, number_chars)
         chars = cursor.selectedText()
-        cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.KeepAnchor, number_chars)
+        cursor.movePosition(QtGui.QTextCursor.Right,
+                            QtGui.QTextCursor.KeepAnchor, number_chars)
         return chars
 
     def _cursor_in_table(self, cursor):
         old_pos = cursor.position()
-        cursor.movePosition(QtGui.QTextCursor.StartOfLine, QtGui.QTextCursor.MoveAnchor, 0)
+        cursor.movePosition(QtGui.QTextCursor.StartOfLine,
+                            QtGui.QTextCursor.MoveAnchor, 0)
 
         if self._chars_at_cursor(cursor, 1) == ' ':
-            cursor.movePosition(QtGui.QTextCursor.NextWord, QtGui.QTextCursor.MoveAnchor)
+            cursor.movePosition(QtGui.QTextCursor.NextWord,
+                                QtGui.QTextCursor.MoveAnchor)
 
-        in_table = self._chars_at_cursor(cursor, 1) == '|' or \
-                   self._chars_at_cursor(cursor, 1) == '+'
+        in_table = (self._chars_at_cursor(cursor, 1) == '|' or
+                    self._chars_at_cursor(cursor, 1) == '+')
         cursor.setPosition(old_pos)
         return in_table
 
     def _cursor_on_border(self, cursor):
         old_pos = cursor.position()
-        cursor.movePosition(QtGui.QTextCursor.StartOfLine, QtGui.QTextCursor.MoveAnchor)
+        cursor.movePosition(QtGui.QTextCursor.StartOfLine,
+                            QtGui.QTextCursor.MoveAnchor)
         if self._chars_at_cursor(cursor, 1) == ' ':
-            cursor.movePosition(QtGui.QTextCursor.NextWord, QtGui.QTextCursor.MoveAnchor)
+            cursor.movePosition(QtGui.QTextCursor.NextWord,
+                                QtGui.QTextCursor.MoveAnchor)
         on_border = self._chars_at_cursor(cursor, 1) == '+'
         cursor.setPosition(old_pos)
         return on_border
@@ -498,7 +520,7 @@ class ReSTHTMLPairView(HasTraits):
 
     def _get_warning_lines(self):
         if self.show_warning_lines:
-            return [ warning.line for warning in self.model.warnings ]
+            return [warning.line for warning in self.model.warnings]
         else:
             return []
 
@@ -517,6 +539,7 @@ class ReSTHTMLPairView(HasTraits):
         else:
             self._set_html_pos_action = True
 
+
 class ReSTHTMLEditorHandler(SaveHandler):
 
     # SaveHandler traits
@@ -527,9 +550,9 @@ class ReSTHTMLEditorHandler(SaveHandler):
     # ReSTHTMLEditorHandler traits
     qt_splitter_state = List
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  Handler interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     def init(self, info):
         """ Open an empty document if there are no empty views and set
@@ -565,9 +588,9 @@ class ReSTHTMLEditorHandler(SaveHandler):
         info.object.config.write()
         return True
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  SaveHandler interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     def save(self, info):
         self.saveObject = info.object.selected_view.model
@@ -577,9 +600,9 @@ class ReSTHTMLEditorHandler(SaveHandler):
         self.saveObject = info.object.selected_view.model
         super(ReSTHTMLEditorHandler, self).saveAs(info)
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  ReSTHTMLEditorHandler interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     # File menu
 
@@ -612,10 +635,15 @@ class ReSTHTMLEditorHandler(SaveHandler):
     # Edit menu
 
     def undo(self, info): self._source_editor_action(info, 'undo')
+
     def redo(self, info): self._source_editor_action(info, 'redo')
+
     def cut(self, info): self._source_editor_action(info, 'cut')
+
     def copy(self, info): self._source_editor_action(info, 'copy')
+
     def paste(self, info): self._source_editor_action(info, 'paste')
+
     def select_all(self, info): self._source_editor_action(info, 'selectAll')
 
     def _source_editor_action(self, info, action):
@@ -641,7 +669,7 @@ class ReSTHTMLEditorHandler(SaveHandler):
             if len(self.qt_splitter_state):
                 splitter.setSizes(self.qt_splitter_state)
             else:
-                splitter.setSizes([sizes[1]/2, sizes[1]/2])
+                splitter.setSizes([sizes[1] / 2, sizes[1] / 2])
         else:
             self.qt_splitter_state = sizes
             splitter.setSizes([0, sum(sizes)])
@@ -745,8 +773,8 @@ class ReSTHTMLEditorHandler(SaveHandler):
         if selected[:length] == markup and selected[-length:] == markup:
             self._modify_selection(info, selected[length:-length])
         # 2. The user selected the text between the markup: remove markup.
-        elif rest[start_pos-length:start_pos] == markup and \
-             rest[end_pos:end_pos+length] == markup:
+        elif (rest[start_pos - length:start_pos] == markup and
+                rest[end_pos:end_pos + length] == markup):
             self._increase_selection(info, length)
             self._modify_selection(info, selected)
         # 3. There is no markup: add markup.
@@ -776,8 +804,9 @@ class ReSTHTMLEditorHandler(SaveHandler):
     def sync_scrollbar_html2rst(self, info):
         info.object.selected_view._sync_scrollbar_html2rst_action = True
 
+
 class ReSTHTMLEditorView(HasTraits):
-    
+
     root_path = Str(USER_HOME_DIRECTORY)
     filters = List(['*.rst', '*.txt'])
 
@@ -823,130 +852,148 @@ class ReSTHTMLEditorView(HasTraits):
         self.default_font.setItalic(self.config['font_italic'])
         self.default_font.setStyleHint(QtGui.QFont.TypeWriter)
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  HasTraits interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     def trait_view(self, name='default'):
-        file_menu = Menu(ActionGroup(Action(name='New \t Ctrl+N',
-                                            action='new'),
-                                     Action(name='Open \t Ctrl+O',
-                                            action='open'),
-                                     Action(name='Close \t Ctrl+W',
-                                            action='close_tab')),
-                         ActionGroup(Action(name='Save \t Ctrl+S',
-                                            action='save'),
-                                     Action(name='Save As',
-                                            action='saveAs')),
-                         ActionGroup(Action(name='Exit \t Ctrl+Q',
-                                            action='exit')),
-                         name='File')
-        edit_menu = Menu(ActionGroup(Action(name='Undo \t Ctrl+Z',
-                                            action='undo'),
-                                     Action(name='Redo \t Ctrl+Y',
-                                            action='redo')),
-                         ActionGroup(Action(name='Cut \t Ctrl+X',
-                                            action='cut'),
-                                     Action(name='Copy \t Ctrl+C',
-                                            action='copy'),
-                                     Action(name='Paste \t Ctrl+V',
-                                            action='paste')),
-                         ActionGroup(Action(name='Select All \t Ctrl+A',
-                                            action='select_all')),
-                         name='Edit')
+        file_menu = Menu(
+            ActionGroup(Action(name='New \t Ctrl+N',
+                               action='new'),
+                        Action(name='Open \t Ctrl+O',
+                               action='open'),
+                        Action(name='Close \t Ctrl+W',
+                               action='close_tab')),
+            ActionGroup(Action(name='Save \t Ctrl+S',
+                               action='save'),
+                        Action(name='Save As',
+                               action='saveAs')),
+            ActionGroup(Action(name='Exit \t Ctrl+Q',
+                               action='exit')),
+            name='File')
 
-        search_menu = Menu(ActionGroup(Action(name='Find \t Ctrl+F',
-                                              action='enable_find'),
-                                       Action(name='Replace \t Ctrl+R',
-                                              action='enable_replace')),
-                           name='Search')
+        edit_menu = Menu(
+            ActionGroup(Action(name='Undo \t Ctrl+Z',
+                               action='undo'),
+                        Action(name='Redo \t Ctrl+Y',
+                               action='redo')),
+            ActionGroup(Action(name='Cut \t Ctrl+X',
+                               action='cut'),
+                        Action(name='Copy \t Ctrl+C',
+                               action='copy'),
+                        Action(name='Paste \t Ctrl+V',
+                               action='paste')),
+            ActionGroup(Action(name='Select All \t Ctrl+A',
+                               action='select_all')),
+            name='Edit')
 
-        view_menu = Menu(ActionGroup(Action(name='Toggle File Browser',
-                                            action='toggle_file_browser')),
-                         name='View')
-        prefs_menu = Menu(Action(name='Sync view on change',
-                                 action='toggle_sync_on_change',
-                                 checked=self.sync_on_change, style='toggle'),
-                          Action(name='Auto fix table',
-                                 action='toggle_auto_table_fix',
-                                 checked=self.auto_table_fix, style='toggle'),
-                          Action(name='Use Sphinx', action='toggle_sphinx',
-                                 checked=self.use_sphinx, style='toggle'),
-                          Action(name='Set Sphinx resources path...',
-                                 action='change_sphinx_static_path'),
-                          Action(name='Change font', action='change_font'),
-                          name='Preferences')
-        help_menu = Menu(Action(name='About', action='about'),
-                         name='Help')
-        convert_menu = Menu(Action(name='Docutils - HTML',
-                                   action='docutils_rst2html'),
-                            Action(name='Docutils - LaTeX',
-                                   action='docutils_rst2latex'),
-                            Action(name='Sphinx - HTML',
-                                   action='sphinx_rst2html'),
-                            Action(name='rst2pdf',
-                                   action='rst2pdf'),
-                            name='Convert')
+        search_menu = Menu(
+            ActionGroup(Action(name='Find \t Ctrl+F',
+                               action='enable_find'),
+                        Action(name='Replace \t Ctrl+R',
+                               action='enable_replace')),
+            name='Search')
+
+        view_menu = Menu(
+            ActionGroup(Action(name='Toggle File Browser',
+                               action='toggle_file_browser')),
+            name='View')
+
+        prefs_menu = Menu(
+            Action(name='Sync view on change',
+                   action='toggle_sync_on_change',
+                   checked=self.sync_on_change, style='toggle'),
+            Action(name='Auto fix table',
+                   action='toggle_auto_table_fix',
+                   checked=self.auto_table_fix, style='toggle'),
+            Action(name='Use Sphinx', action='toggle_sphinx',
+                   checked=self.use_sphinx, style='toggle'),
+            Action(name='Set Sphinx resources path...',
+                   action='change_sphinx_static_path'),
+            Action(name='Change font', action='change_font'),
+            name='Preferences')
+
+        help_menu = Menu(
+            Action(name='About', action='about'),
+            name='Help')
+
+        convert_menu = Menu(
+            Action(name='Docutils - HTML',
+                   action='docutils_rst2html'),
+            Action(name='Docutils - LaTeX',
+                   action='docutils_rst2latex'),
+            Action(name='Sphinx - HTML',
+                   action='sphinx_rst2html'),
+            Action(name='rst2pdf',
+                   action='rst2pdf'),
+            name='Convert')
+
         menu_bar = MenuBar(file_menu, edit_menu, search_menu, view_menu,
                            prefs_menu, convert_menu, help_menu)
 
-        ########################################################################
+        #######################################################################
 
-        file_group = ActionGroup(Action(tooltip='New', action='new',
-                                        image = ImageResource('new')),
-                                 Action(tooltip='Open', action='open',
-                                        image = ImageResource('open')),
-                                 Action(tooltip='Save', action='save',
-                                        image = ImageResource('save')),
-                                 Action(tooltip='Save As', action='saveAs',
-                                        image = ImageResource('save-as')),
-                                 Action(tooltip='Close', action='close_tab',
-                                        image = ImageResource('close'))
-                                )
+        file_group = ActionGroup(
+            Action(tooltip='New', action='new',
+                   image=ImageResource('new')),
+            Action(tooltip='Open', action='open',
+                   image=ImageResource('open')),
+            Action(tooltip='Save', action='save',
+                   image=ImageResource('save')),
+            Action(tooltip='Save As', action='saveAs',
+                   image=ImageResource('save-as')),
+            Action(tooltip='Close', action='close_tab',
+                   image=ImageResource('close'))
+        )
 
-        edit_group = ActionGroup(Action(tooltip='Cut', action='cut',
-                                        image = ImageResource('cut')),
-                                 Action(tooltip='Copy', action='copy',
-                                        image = ImageResource('copy')),
-                                 Action(tooltip='Paste', action='paste',
-                                        image = ImageResource('paste'))
-                                )
+        edit_group = ActionGroup(
+            Action(tooltip='Cut', action='cut',
+                   image=ImageResource('cut')),
+            Action(tooltip='Copy', action='copy',
+                   image=ImageResource('copy')),
+            Action(tooltip='Paste', action='paste',
+                   image=ImageResource('paste'))
+        )
 
-        undo_group = ActionGroup(Action(tooltip='Undo', action='undo',
-                                        image = ImageResource('undo')),
-                                 Action(tooltip='Redo', action='redo',
-                                        image = ImageResource('redo'))
-                                )
+        undo_group = ActionGroup(
+            Action(tooltip='Undo', action='undo',
+                   image=ImageResource('undo')),
+            Action(tooltip='Redo', action='redo',
+                   image=ImageResource('redo'))
+        )
 
-        search_group = ActionGroup(Action(tooltip='Find',
-                                          action='enable_find',
-                                          image = ImageResource('find')),
-                                   Action(tooltip='Replace',
-                                          action='enable_replace',
-                                          image = ImageResource('replace')))
+        search_group = ActionGroup(
+            Action(tooltip='Find',
+                   action='enable_find',
+                   image=ImageResource('find')),
+            Action(tooltip='Replace',
+                   action='enable_replace',
+                   image=ImageResource('replace')))
 
-        markup_group = ActionGroup(Action(tooltip='Bold', action='bold',
-                                          image = ImageResource('bold')),
-                                   Action(tooltip='Italic', action='italic',
-                                          image = ImageResource('italic')),
-                                   Action(tooltip='Inline Literal',
-                                          action='inline_literal',
-                                          image = ImageResource('literal')),
-                                   Action(tooltip='Fix underline (Ctrl+D)',
-                                          action='fix_underline',
-                                          image = ImageResource('underline')),
-                                   Action(tooltip='Fix underline and overline (Ctrl+Shift+D)',
-                                          action='fix_under_overline',
-                                          image = ImageResource('under-over'))
-                                  )
+        markup_group = ActionGroup(
+            Action(tooltip='Bold', action='bold',
+                   image=ImageResource('bold')),
+            Action(tooltip='Italic', action='italic',
+                   image=ImageResource('italic')),
+            Action(tooltip='Inline Literal',
+                   action='inline_literal',
+                   image=ImageResource('literal')),
+            Action(tooltip='Fix underline (Ctrl+D)',
+                   action='fix_underline',
+                   image=ImageResource('underline')),
+            Action(tooltip='Fix underline and overline (Ctrl+Shift+D)',
+                   action='fix_under_overline',
+                   image=ImageResource('under-over'))
+        )
 
-        sync_group = ActionGroup(Action(tooltip='Sync rst2html',
-                                        action='sync_scrollbar_rst2html',
-                                        image = ImageResource('sync_rst2html')),
-                                 Action(tooltip='Sync html2rst',
-                                        action='sync_scrollbar_html2rst',
-                                        image = ImageResource('sync_html2rst'))
-                                )
+        sync_group = ActionGroup(
+            Action(tooltip='Sync rst2html',
+                   action='sync_scrollbar_rst2html',
+                   image=ImageResource('sync_rst2html')),
+            Action(tooltip='Sync html2rst',
+                   action='sync_scrollbar_html2rst',
+                   image=ImageResource('sync_html2rst'))
+        )
 
         tool_bar = ToolBar(file_group, edit_group, undo_group, search_group,
                            markup_group, sync_group)
@@ -960,7 +1007,8 @@ class ReSTHTMLEditorView(HasTraits):
             KeyBinding(binding1='Ctrl-w', method_name='close_tab'),
             KeyBinding(binding1='Ctrl-q', method_name='exit'),
             KeyBinding(binding1='Ctrl-d', method_name='fix_underline'),
-            KeyBinding(binding1='Ctrl-Shift-d', method_name='fix_under_overline'),
+            KeyBinding(binding1='Ctrl-Shift-d',
+                       method_name='fix_under_overline'),
             # The following are identical to the already set hotkeys in
             # the source editor. We just want them to work regardless of
             # whether the editor has focus.
@@ -992,14 +1040,14 @@ class ReSTHTMLEditorView(HasTraits):
                     handler=ReSTHTMLEditorHandler(),
                     width=1024, height=786, resizable=True,
                     menubar=menu_bar,
-                    toolbar = tool_bar,
+                    toolbar=tool_bar,
                     key_bindings=key_bindings,
-                    title="reStructured Text Editor", 
-                    icon = self.icon)
+                    title="reStructured Text Editor",
+                    icon=self.icon)
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  ReSTHTMLEditorView interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     def new(self, filepath=''):
         """ Create a new document.
@@ -1033,7 +1081,7 @@ class ReSTHTMLEditorView(HasTraits):
 
         open_views = self.open_views
         if (len(open_views) and not open_views[-1].model.rest and
-            not open_views[-1].model.filepath):
+                not open_views[-1].model.filepath):
             # An empty, untitled window can be safely be replaced
             view = open_views[-1]
             view.model = model
@@ -1043,15 +1091,16 @@ class ReSTHTMLEditorView(HasTraits):
 
         view.sync_on_change = self.sync_on_change
         view.auto_table_fix = self.auto_table_fix
-        # Change the font of the rest editor in the new view to the default font
+        # Change the font of the rest editor in the new view to the default
+        # font
         view._font = self.default_font
         view._change_font_action = True
 
         self.selected_view = view
 
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
     #  Protected interface
-    #-----------------------------------------------------------------
+    # -----------------------------------------------------------------
 
     def __tree_default(self):
         return FileTree(root_path=self.root_path, filters=self.filters)

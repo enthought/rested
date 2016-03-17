@@ -14,11 +14,11 @@ exec (compile(open(join('rested', '__init__.py')).read(),
 
 
 setup(
-    name = 'rested',
-    version = info['__version__'],
-    author = 'Enthought, Inc.',
-    author_email = 'info@enthought.com',
-    classifiers = [c.strip() for c in """\
+    name='rested',
+    version=info['__version__'],
+    author='Enthought, Inc.',
+    author_email='info@enthought.com',
+    classifiers=[c.strip() for c in """\
         Development Status :: 5 - Production/Stable
         Intended Audience :: Developers
         Intended Audience :: Science/Research
@@ -33,19 +33,19 @@ setup(
         Topic :: Software Development
         Topic :: Software Development :: Libraries
         """.splitlines() if len(c.strip()) > 0],
-    description = 'rested: ReST Editor',
-    entry_points = {
+    description='rested: ReST Editor',
+    entry_points={
         'gui_scripts': [
             'rested = rested.app:main',
-            ],
-        },
-    install_requires = info['__requires__'],
-    license = 'BSD',
-    #long_description = open('README.rst').read(),
-    maintainer = 'ETS Developers',
-    maintainer_email = 'enthought-dev@enthought.com',
-    package_data = dict(rested=['images/*', 'sphinx_default/*']),
-    packages = find_packages(),
-    platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
-    zip_safe = False,
+        ],
+    },
+    install_requires=info['__requires__'],
+    license='BSD',
+    # long_description = open('README.rst').read(),
+    maintainer='ETS Developers',
+    maintainer_email='enthought-dev@enthought.com',
+    package_data=dict(rested=['images/*', 'sphinx_default/*']),
+    packages=find_packages(),
+    platforms=["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
+    zip_safe=False,
 )
