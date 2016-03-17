@@ -18,6 +18,7 @@
 # Standard library imports
 import codecs
 from multiprocessing import Pool
+import sys
 
 # ETS imports
 from traits.api import HasTraits, Int, Str, List, Bool, Any, \
@@ -102,7 +103,13 @@ class ReSTHTMLPair(CanSaveMixin):
             self._processing = False
 
             html, warning_nodes = result
-            self.html = html.decode('utf-8')
+            if sys.version_info.major > 2:
+                if isinstance(html, bytes):
+                    html = html.decode('utf-8')
+            else:
+                if isinstance(html, str):
+                    html = html.decode('utf-8')
+            self.html = html
             warnings = []
             for node in warning_nodes:
                 description = node.children[0].children[0]
